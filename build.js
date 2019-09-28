@@ -1,9 +1,8 @@
-const csv = require("csvtojson");
 const argio = require('argio');
 const parser = argio();
 
-const init = async () => {
-    const data = await readCSV().catch(e => console.log(e));
+const init = () => {
+    const data = readInputs();
     if (parser.get("f")) {
         let formats = parser.params.f;
         build(data, formats);
@@ -11,7 +10,6 @@ const init = async () => {
         console.log("Usage: node build.js -f [formats]\n");
         console.log("Options:\n\t-f\t\tDefine output formats")
     }
-
 }
 
 const build = (data, formats) => {
@@ -25,13 +23,13 @@ const build = (data, formats) => {
     })
 }
 
-const readCSV = async () => {
+const readInputs = () => {
     try {
-        const en2sn = await csv().fromFile("./inputs/en2sn.csv");
-        const sn2en = await csv().fromFile("./inputs/sn2en.csv");
+        const en2sn = require("./inputs/en2sn.json");
+        const sn2en = require("./inputs/sn2en.json");
         return { en2sn, sn2en };
     } catch (e) {
-        throw (`Unable to read csv files. : ${e}`);
+        console.log(`Unable to read input files. : ${e}`);
     }
 }
 

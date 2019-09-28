@@ -22,11 +22,11 @@ const save = async (table, data) => {
         let rowCount = data.length;
         let values = "";
         let count = 1;
-        let limit = 3000;
+        let limit = 1000;
 
         try {
             for (let row of data) {
-                values += `('${row.word}', '${row.definitions}')`;
+                values += `("${row.word}", "${row.definitions}")`;
                 if (count < limit) values += ",";
                 if (count == limit) {
                     let sql = `INSERT INTO ${table}(word, definitions) VALUES${values}`;
@@ -55,6 +55,7 @@ const insert = (sql) => {
     return new Promise((resolve, reject) => {
         osdb.run(sql, [], (err) => {
             if (err) {
+                console.log(sql);
                 console.log(`Error: Unable to insert data to the database! ${err}`);
                 reject();
             }
