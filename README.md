@@ -24,10 +24,16 @@ You can use the build script in this project to automatically generate databases
 1. Fork this repository. 
 1. Navigate to that directory using your Terminal (or CMD),
 1. Run ```npm install``` to install dependencies.
-1. After that run ```npm start``` to generate databases.
-
+1. After that run ```node build.js -f [formats]``` to generate databases.
 - Generated files will be placed inside the ```outputs``` directory.
-- You can edit ```build.js``` file to prevent unwanted formats from getting generated. 
+
+#### Examples
+```javascript
+node build.js -f json //build json files
+node build.js -f sqlite //build sqlite database
+node build.js -f json sqlite // build json and sqlite databases
+```
+
 
 ## Compatible Fonts (for Sinhala definitions)
 - [Iskoola Pota](http://www.sinhalafonts.org/fonts/13091/iskoola_potha_unicode.html)
