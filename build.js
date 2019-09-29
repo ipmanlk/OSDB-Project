@@ -6,20 +6,20 @@ const fetch = require('node-fetch');
 const init = async () => {
     if (parser.get("d")) {
         downloadInputs();
+        return;
     }
 
-    if (!parser.get("d")) {
+    if (parser.get("f")) {
+        let formats = parser.params.f;
         const downloaded = await downloadInputs();
         if (!downloaded) return;
         const data = readInputs();
-        if (parser.get("f")) {
-            let formats = parser.params.f;
-            build(data, formats);
-        } else {
-            console.log("Usage: node build.js -f [formats]\n");
-            console.log("Options:\n\t-f\t\tDefine output formats")
-        }
+        build(data, formats);
+    } else {
+        console.log("Usage: node build.js -f [formats]\n");
+        console.log("Options:\n\t-f\t\tDefine output formats")
     }
+
 }
 
 const build = (data, formats) => {
