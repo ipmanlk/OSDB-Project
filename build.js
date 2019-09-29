@@ -1,14 +1,24 @@
 const argio = require('argio');
 const parser = argio();
+const fs = require("fs");
+const fetch = require('node-fetch');
 
-const init = () => {
-    const data = readInputs();
-    if (parser.get("f")) {
-        let formats = parser.params.f;
-        build(data, formats);
-    } else {
-        console.log("Usage: node build.js -f [formats]\n");
-        console.log("Options:\n\t-f\t\tDefine output formats")
+const init = async () => {
+    if (parser.get("d")) {
+        downloadInputs();
+    }
+
+    if (!parser.get("d")) {
+        const downloaded = await downloadInputs();
+        if (!downloaded) return;
+        const data = readInputs();
+        if (parser.get("f")) {
+            let formats = parser.params.f;
+            build(data, formats);
+        } else {
+            console.log("Usage: node build.js -f [formats]\n");
+            console.log("Options:\n\t-f\t\tDefine output formats")
+        }
     }
 }
 
@@ -31,6 +41,32 @@ const readInputs = () => {
     } catch (e) {
         console.log(`Unable to read input files. : ${e}`);
     }
+}
+
+const downloadInputs = async () => {
+    try {
+        console.log("Status: [OSDB] Downloading databases...");
+        const en2sn = await request("https://tinyurl.com/y58lada2");
+        fs.writeFileSync("./inputs/en2sn.json", JSON.stringify(en2sn));
+        const sn2en = await request("https://tinyurl.com/yxblh5js");
+        fs.writeFileSync("./inputs/sn2en.json", JSON.stringify(sn2en));
+        console.log("Status: [OSDB] Databases have been downloaded!.");
+        return true;
+    } catch (error) {
+        console.log(`Error: [OSDB] Unable to download databases!. ${error}`);
+        return false;
+    }
+}
+
+const request = (url) => {
+    return new Promise((resolve, reject) => {
+        fetch(url)
+            .then(res => res.json())
+            .then(json => resolve(json))
+            .catch(error => {
+                reject(error);
+            });
+    });
 }
 
 init();

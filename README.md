@@ -5,12 +5,20 @@
 This is an open database anyone can use to find Sinhala definitions for English words and vice versa. This project has a build script you can use to generate databases in different formats (see "Build" section for more information).
 
 ## Files
-- Main input files are in ```JavaScript Object Notation (JSON)``` format and they are located inside the ```inputs``` directory.
+- Main input files are in ```JavaScript Object Notation (JSON)``` format and they are located in the [Open Sinhala Database Repository](https://github.com/ipmanlk/OSDB).
+- They will get automatically downloaded to the ```inputs``` directory after running the build script.
 - You can open them using a text editor such as VSCode.  
 - ```en2sn.json``` database contains English-Sinhala definitions.
 - ```sn2en.json``` database contains Sinhala-English definitions.
 - These are the main files used by build script to generate databases.
-- Do not rename them if you are planning on using the build script.
+
+## Download main input files (optional)
+This is part of the build process. But if you want to download input files (databases) without building anything, you can do so by running the following command.
+
+```
+node build.js --d
+```
+This will download input files to the ```inputs``` directory.
 
 ## Build
 You can use the build script in this project to automatically generate databases in various formats.
