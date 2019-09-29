@@ -5,13 +5,13 @@ const fetch = require('node-fetch');
 
 const init = async () => {
     if (parser.get("d")) {
-        downloadInputs(true);
-        return;
+        await downloadInputs(true);
+        if (!parser.get("f")) return;
     }
 
     if (parser.get("f")) {
         let formats = parser.params.f;
-        const downloaded = await downloadInputs();
+        await downloadInputs();
         const data = readInputs();
         build(data, formats);
     } else {
