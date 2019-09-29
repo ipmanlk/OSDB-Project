@@ -5,14 +5,13 @@ const fetch = require('node-fetch');
 
 const init = async () => {
     if (parser.get("d")) {
-        downloadInputs();
+        downloadInputs(true);
         return;
     }
 
     if (parser.get("f")) {
         let formats = parser.params.f;
         const downloaded = await downloadInputs();
-        if (!downloaded) return;
         const data = readInputs();
         build(data, formats);
     } else {
@@ -43,13 +42,18 @@ const readInputs = () => {
     }
 }
 
-const downloadInputs = async () => {
+const downloadInputs = async (forced = false) => {
     try {
+        const en2snPath = "./inputs/en2sn.json";
+        const sn2enPath = "./inputs/sn2en.json";
+        // check if inputs exist
+        if (fs.existsSync(en2snPath) && fs.existsSync(sn2enPath) & !forced) return;
+        // or download them
         console.log("Status: [OSDB] Downloading databases...");
         const en2sn = await request("https://tinyurl.com/y58lada2");
-        fs.writeFileSync("./inputs/en2sn.json", JSON.stringify(en2sn));
+        fs.writeFileSync(en2snPath, JSON.stringify(en2sn));
         const sn2en = await request("https://tinyurl.com/yxblh5js");
-        fs.writeFileSync("./inputs/sn2en.json", JSON.stringify(sn2en));
+        fs.writeFileSync(sn2enPath, JSON.stringify(sn2en));
         console.log("Status: [OSDB] Databases have been downloaded!.");
         return true;
     } catch (error) {
