@@ -13,7 +13,7 @@ This is an open database anyone can use to find Sinhala definitions for English 
 - These are the main files used by build script to generate databases.
 
 ## Download main input files (optional)
-This is part of the build process. But if you want to download input files (databases) without building anything, you can do so by running the following command.
+This is a part of the build process. But if you want to download input files (databases) without building anything or you want use the latest databases, you can do so by running the following command.
 
 ```
 node build.js --d
