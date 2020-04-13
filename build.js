@@ -50,9 +50,9 @@ const downloadInputs = async (forced = false) => {
         if (fs.existsSync(en2snPath) && fs.existsSync(sn2enPath) & !forced) return;
         // or download them
         console.log("Status: [OSDB] Downloading databases...");
-        const en2sn = await request("https://tinyurl.com/y58lada2");
+        const en2sn = await request("https://raw.githubusercontent.com/ipmanlk/OSDB/master/db/en2sn.json");
         fs.writeFileSync(en2snPath, JSON.stringify(en2sn));
-        const sn2en = await request("https://tinyurl.com/yxblh5js");
+        const sn2en = await request("https://raw.githubusercontent.com/ipmanlk/OSDB/master/db/sn2en.json");
         fs.writeFileSync(sn2enPath, JSON.stringify(sn2en));
         console.log("Status: [OSDB] Databases have been downloaded!.");
         return true;
