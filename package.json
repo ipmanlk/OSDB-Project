@@ -11,7 +11,6 @@
   "dependencies": {
     "argio": "0.0.3",
     "csvtojson": "^2.0.10",
-    "node-fetch": "^2.6.0",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.1.1"
   }
 }
