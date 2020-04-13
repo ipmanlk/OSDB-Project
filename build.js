@@ -1,7 +1,7 @@
 const argio = require('argio');
 const parser = argio();
 const fs = require("fs");
-const fetch = require('node-fetch');
+const https = require("https");
 
 const init = async () => {
     if (parser.get("d")) {
@@ -64,12 +64,22 @@ const downloadInputs = async (forced = false) => {
 
 const request = (url) => {
     return new Promise((resolve, reject) => {
-        fetch(url)
-            .then(res => res.json())
-            .then(json => resolve(json))
-            .catch(error => {
-                reject(error);
+        https.get(encodeURI(url), (resp) => {
+            let data = "";
+
+            // A chunk of data has been recieved.
+            resp.on("data", (chunk) => {
+                data += chunk;
             });
+
+            // The whole response has been received.
+            resp.on("end", () => {
+                resolve(JSON.parse(data));
+            });
+
+        }).on("error", (err) => {
+            reject(err.message);
+        });
     });
 }
 
